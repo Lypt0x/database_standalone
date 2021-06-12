@@ -1,0 +1,3 @@
+rootProject.name = 'thevace-database'
+include 'thevace-database-api'
+

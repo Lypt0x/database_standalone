@@ -1,0 +1,46 @@
+//file:noinspection GroovyAssignabilityCheck
+
+plugins {
+    id 'java'
+    id 'maven'
+}
+
+apply plugin: "maven"
+
+group 'me.thevace.standalone'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation "com.zaxxer:HikariCP:4.0.4-SNAPSHOT"
+    implementation "com.google.inject:guice:4.1.0"
+
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://repo.phyronic.dev/repository/vace-snapshots/") {
+                authentication(userName: "lyptox", password: "wUV2H8EqN9wrkhaX")
+            }
+            pom.version = "1.0-SNAPSHOT"
+            pom.artifactId = "database-api"
+            pom.groupId = "me.thevace.standalone"
+        }
+    }
+}
+
+
+
+
+
+test {
+    useJUnitPlatform()
+}

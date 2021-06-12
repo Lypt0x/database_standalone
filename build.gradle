@@ -1,0 +1,56 @@
+//file:noinspection GroovyAssignabilityCheck
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:6.1.0"
+    }
+}
+
+plugins {
+    id 'application'
+    id 'maven'
+}
+
+apply plugin: "maven"
+apply plugin: "com.github.johnrengelman.shadow"
+
+group 'me.thevace.standalone'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    jcenter()
+}
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
+
+compileJava.options.encoding = 'UTF-8'
+mainClassName = "me.thevace.standalone.database.startup.Launcher"
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+}
+
+dependencies {
+    shadow "com.google.inject:guice:4.1.0"
+    shadow "com.google.inject.extensions:guice-assistedinject:4.1.0"
+    shadow 'com.google.code.gson:gson:2.8.6'
+
+    shadow "com.zaxxer:HikariCP:4.0.4-SNAPSHOT"
+    shadow "com.adelean:inject-resources-spring:0.1.1"
+    shadow "commons-io:commons-io:2.8.0"
+
+    shadow 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
+    shadow "org.slf4j:slf4j-api:2.0.0-alpha0"
+    shadow 'org.slf4j:slf4j-simple:2.0.0-alpha0'
+
+    shadow project(":thevace-database-api")
+}
